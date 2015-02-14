@@ -6,13 +6,11 @@ repositories {
   maven {url "http://developer.marklogic.com/maven2/"}
   maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
   maven {url "http://rjrudin.github.io/marklogic-java/releases"}
-  maven {
-      url "file://$projectDir/../gh-pages-marklogic-java/releases"
-    }
+  maven {url "file://$projectDir/../gh-pages-marklogic-java/releases"}
 }
 
 dependencies {
-  compile("com.marklogic.camel:ml-camel-mlcp:0.1.2") {
+  compile("com.marklogic.camel:ml-camel-mlcp:0.2") {
     exclude module:"xml-apis"
   }
   
@@ -22,6 +20,10 @@ dependencies {
 }
 
 task camelRun(type: JavaExec) {
+  doFirst {
+    println "File URI: ${fileUri}"
+    println "MLCP URI: ${mlcpUri}"
+  }
   main = 'org.apache.camel.spring.Main'
   classpath = sourceSets.main.runtimeClasspath
   systemProperties = [
