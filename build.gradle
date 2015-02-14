@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+  mavenCentral()
+  maven {url "http://developer.marklogic.com/maven2/"}
+  maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
+  maven {url "http://rjrudin.github.io/marklogic-java/releases"}
+}
+
+dependencies {
+  compile("com.marklogic.camel:ml-camel-mlcp:0.1") {
+    exclude module:"xml-apis"
+  }
+  
+  compile "xml-apis:xml-apis:1.4.01"
+  
+  compile "org.apache.camel:camel-spring:2.14.1"
+}
+
+task runCamel(type: JavaExec) {
+  main = 'org.apache.camel.spring.Main'
+  classpath = sourceSets.main.runtimeClasspath
+}
