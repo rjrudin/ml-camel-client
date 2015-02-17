@@ -23,3 +23,6 @@ Just edit the gradle.properties file:
 - fileUri is the URI for the [Camel File component](http://camel.apache.org/file2.html). You can change this to be whatever path you would like. 
 - mlcpUri is the URI for the Camel MarkLogic component. You can attach any of the [Content Pump import arguments](https://docs.marklogic.com/guide/ingestion/content-pump#id_63999) onto the querystring. For reference, the default value of mlcpUri specifies a collection to place each ingested document into. 
   
+Cool - how can I use this in my existing application?
+----
+Easy - you'll notice there's no real source code in this project - there are just some small config files. The build.gradle file shows you how to declare a dependency on ml-camel-mclp. Once you've done that - and you can do that using Maven/Gradle/whatever - it's simply a matter of how you choose to configure Camel. This project uses a Camel XML file to specify routes and a Spring file to use Spring for running Camel - those config files are under src/main/resources. But it's up to you how you want to configure Camel, and it's best to consult the Camel docs for all the different options that you have. 
