@@ -37,6 +37,10 @@ task camelRun(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   systemProperties = [
     "fileUri": fileUri,
-    "mlcpUri": mlcpUri
+    "mlcpUri": mlcpUri,
+    "mlHost": mlHost,
+    "mlXdbcPort": mlXdbcPort,
+    "mlUsername": mlUsername,
+    "mlPassword": mlPassword
   ]
 }
