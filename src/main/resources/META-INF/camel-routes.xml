@@ -10,7 +10,8 @@
 
   <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 
-    <!-- The URIs are expected to be system properties, which are configured via the Gradle "camelRun" task -->
+    <!-- This route feeds files from a directory into mlcp. The URIs are expected to be system properties, which are configured 
+      via the Gradle "camelRun" task -->
     <route>
       <from uri="{{inboxUri}}" />
       <to uri="{{mlcpUri}}" />
@@ -18,7 +19,9 @@
 
     <!-- This route shows how to use the Camel Timer component to initiate a flow, which then involves the CurrentTimeXmlGenerator 
       setting the input message to a block of XML, which is then written to the inboxUri that the above route reads from (using 
-      the ID of the current message as the file name), which means each XML block will be ingested as a new document into MarkLogic. -->
+      the ID of the current message as the file name), which means each XML block will be ingested as a new document into MarkLogic. 
+      See http://camel.apache.org/timer.html for more info on the timer, http://camel.apache.org/bean.html for more info on a Bean 
+      endpoint, and http://camel.apache.org/file2.html for more info on writing a file -->
     <route>
       <from uri="timer:sampleTime?fixedRate=true&amp;period=5000" />
       <to uri="bean:currentTimeXmlGenerator" />
