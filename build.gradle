@@ -24,19 +24,19 @@ repositories {
 
 dependencies {
   // MLCP has a bug in its POM file - need to make sure we get the right version of xml-apis
-  compile("com.marklogic.camel:ml-camel-mlcp:0.2") {
+  compile("com.marklogic.camel:ml-camel-mlcp:0.4") {
     exclude module:"xml-apis"
   }
   compile "xml-apis:xml-apis:1.4.01"
   
-  compile "org.apache.camel:camel-spring:2.14.1"
+  compile "org.apache.camel:camel-spring:2.15.1"
 }
 
 task camelRun(type: JavaExec) {
   main = 'org.apache.camel.spring.Main'
   classpath = sourceSets.main.runtimeClasspath
   systemProperties = [
-    "fileUri": fileUri,
+    "inboxUri": inboxUri,
     "mlcpUri": mlcpUri,
     "mlHost": mlHost,
     "mlXdbcPort": mlXdbcPort,

@@ -5,12 +5,24 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+  <!-- A simple bean that sets the body of the input message to a block of XML with the current time in it -->
+  <bean id="currentTimeXmlGenerator" class="com.marklogic.camel.sample.CurrentTimeXmlGenerator" />
+
   <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 
     <!-- The URIs are expected to be system properties, which are configured via the Gradle "camelRun" task -->
     <route>
-      <from uri="{{fileUri}}" />
+      <from uri="{{inboxUri}}" />
       <to uri="{{mlcpUri}}" />
+    </route>
+
+    <!-- This route shows how to use the Camel Timer component to initiate a flow, which then involves the CurrentTimeXmlGenerator 
+      setting the input message to a block of XML, which is then written to the inboxUri that the above route reads from (using 
+      the ID of the current message as the file name), which means each XML block will be ingested as a new document into MarkLogic. -->
+    <route>
+      <from uri="timer:sampleTime?fixedRate=true&amp;period=5000" />
+      <to uri="bean:currentTimeXmlGenerator" />
+      <to uri="{{inboxUri}}?fileName=${id}.xml" />
     </route>
 
   </camelContext>
