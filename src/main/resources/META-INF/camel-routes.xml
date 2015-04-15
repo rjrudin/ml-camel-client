@@ -8,6 +8,10 @@
   <!-- A simple bean that sets the body of the input message to a block of XML with the current time in it -->
   <bean id="currentTimeXmlGenerator" class="com.marklogic.camel.sample.CurrentTimeXmlGenerator" />
 
+  <bean id="xccTemplate" class="com.marklogic.xccutil.template.XccTemplate">
+    <constructor-arg value="xcc://#{systemProperties['mlUsername']}:#{systemProperties['mlPassword']}@#{systemProperties['mlHost']}:#{systemProperties['mlXdbcPort']}"/>
+  </bean>
+  
   <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 
     <!-- This route feeds files from a directory into mlcp. The URIs are expected to be system properties, which are configured 

@@ -30,6 +30,9 @@ dependencies {
   compile "xml-apis:xml-apis:1.4.01"
   
   compile "org.apache.camel:camel-spring:2.15.1"
+
+  // Optional library for making XCC calls to MarkLogic
+  compile 'com.marklogic:ml-xcc-util:1.0'
 }
 
 task camelRun(type: JavaExec) {
