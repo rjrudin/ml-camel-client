@@ -21,13 +21,14 @@
       setting the input message to a block of XML, which is then written to the inboxUri that the above route reads from (using 
       the ID of the current message as the file name), which means each XML block will be ingested as a new document into MarkLogic. 
       See http://camel.apache.org/timer.html for more info on the timer, http://camel.apache.org/bean.html for more info on a Bean 
-      endpoint, and http://camel.apache.org/file2.html for more info on writing a file -->
+      endpoint, and http://camel.apache.org/file2.html for more info on writing a file 
     <route>
       <from uri="timer:sampleTime?fixedRate=true&amp;period=5000" />
       <to uri="bean:currentTimeXmlGenerator" />
       <to uri="{{inboxUri}}?fileName=${id}.xml" />
     </route>
-
+    -->
+    
   </camelContext>
 
 </beans>
