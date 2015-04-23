@@ -23,6 +23,10 @@ repositories {
 }
 
 dependencies {
+    
+    // Camel component for talking XCC to MarkLogic
+    compile "com.marklogic.camel:ml-camel-xcc:0.2"
+    
   // MLCP has a bug in its POM file - need to make sure we get the right version of xml-apis
   compile("com.marklogic.camel:ml-camel-mlcp:0.4") {
     exclude module:"xml-apis"
@@ -30,17 +34,14 @@ dependencies {
   compile "xml-apis:xml-apis:1.4.01"
   
   compile "org.apache.camel:camel-spring:2.15.1"
-
-  // Optional library for making XCC calls to MarkLogic
-  compile 'com.marklogic:ml-xcc-util:1.0'
+  runtime "org.apache.camel:camel-csv:2.15.1"
+  runtime "org.apache.camel:camel-velocity:2.15.1"
 }
 
 task camelRun(type: JavaExec) {
   main = 'org.apache.camel.spring.Main'
   classpath = sourceSets.main.runtimeClasspath
   systemProperties = [
-    "inboxUri": inboxUri,
-    "mlcpUri": mlcpUri,
     "mlHost": mlHost,
     "mlXdbcPort": mlXdbcPort,
     "mlUsername": mlUsername,

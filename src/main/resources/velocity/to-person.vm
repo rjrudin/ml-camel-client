@@ -1,0 +1,5 @@
+<person>
+  <firstName>${body['firstName']}</firstName>
+  <lastName>${body['lastName']}</lastName>
+  <dateOfBirth>${body['dateOfBirth']}</dateOfBirth>
+</person>
