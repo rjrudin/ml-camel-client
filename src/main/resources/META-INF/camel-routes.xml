@@ -11,9 +11,10 @@
   <!-- Custom class for processing CSV text -->
   <bean id="csvProcessor" class="com.marklogic.camel.sample.CsvProcessor" />
 
+  <!-- Custom class for defining parameters for searching search.worldbank.org -->
   <bean id="wbSearchInitializer" class="com.marklogic.camel.sample.WbSearchInitializer">
-    <property name="rows" value="500"/>
-    <property name="page" value="3"/>
+    <property name="rows" value="50"/>
+    <property name="page" value="1"/>
   </bean>
   
   <bean id="xccTemplate" class="com.marklogic.xccutil.template.XccTemplate">
@@ -45,16 +46,33 @@
           uri="ml-xcc://{{mlUsername}}:{{mlPassword}}@{{mlHost}}:{{mlXdbcPort}}?format=xml&amp;collections=person,camel-test&amp;permissions=rest-reader,read,rest-writer,update" />
       </split>
     </route>
-
-    <route autoStartup="true">
-      <from uri="timer:searchTimer?fixedRate=true&amp;period=1000&amp;repeatCount=3" />
+    
+    <!--
+    Route for querying against search.worldbank.org a certain number of times (as defined by the repeatCount parameter)
+    and then parsing the response and ingesting each doc element as a separate document into MarkLogic via XCC. You can
+    customize the wbSearchInitializer bean above to configure how many records are pulled at once and what the starting
+    page is. Note - don't set streaming=true on the split component, that prevents the xpath expression from working
+    properly, as it needs to run against the entire XML payload in memory.
+    -->
+    <route autoStartup="false">
+      <from uri="timer:searchTimer?fixedRate=true&amp;period=2000&amp;repeatCount=1000" />
       <to uri="bean:wbSearchInitializer?method=setHeadersForSearch"/>
-      <log message="Rows: ${headers.WbSearchRows}"/>
-      <log message="Start: ${headers.WbSearchStart}"/>
-      <to uri="http4://search.worldbank.org/api/v2/wds?format=xml&amp;srt=docdt&amp;order=desc&amp;rows=${headers.WbSearchRows}&amp;os=1" />
-      <split streaming="true" parallelProcessing="true">
+      <setHeader headerName="CamelHttpQuery">
+        <simple>format=xml&amp;srt=docdt&amp;order=desc&amp;rows=${headers.WbSearchRows}&amp;os=${headers.WbSearchStart}</simple>
+      </setHeader>
+      <log message="Query params: ${header.CamelHttpQuery}"/>
+      <to uri="http4://search.worldbank.org/api/v2/wds" />
+      <split parallelProcessing="true">
         <xpath>/documents/doc</xpath>
-        <log message="Got doc"/>
+        <setHeader headerName="docId">
+          <xpath>/doc/@id</xpath>
+        </setHeader>
+        <setHeader headerName="MlXccUri">
+          <simple>/world-bank/meta/${header.docId}.xml</simple>
+        </setHeader>
+        <convertBodyTo type="java.lang.String"/>
+        <to
+          uri="ml-xcc://{{mlUsername}}:{{mlPassword}}@{{mlHost}}:{{mlXdbcPort}}?format=xml&amp;collections=image-bank-meta&amp;permissions=rest-reader,read,rest-writer,update" />
       </split>
     </route>
 

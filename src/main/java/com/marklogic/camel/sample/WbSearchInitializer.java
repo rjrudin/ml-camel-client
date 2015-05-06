@@ -4,11 +4,11 @@ import org.apache.camel.Exchange;
 
 public class WbSearchInitializer {
 
-    private int rows = 500;
-    private int page = 3;
+    private int rows;
+    private int page;
 
     public void setHeadersForSearch(Exchange exchange) {
-        exchange.getIn().setHeader("WbSearchStart", (page * rows) + 1);
+        exchange.getIn().setHeader("WbSearchStart", ((page - 1) * rows) + 1);
         exchange.getIn().setHeader("WbSearchRows", rows);
         page++;
     }
