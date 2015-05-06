@@ -11,6 +11,11 @@
   <!-- Custom class for processing CSV text -->
   <bean id="csvProcessor" class="com.marklogic.camel.sample.CsvProcessor" />
 
+  <bean id="wbSearchInitializer" class="com.marklogic.camel.sample.WbSearchInitializer">
+    <property name="rows" value="500"/>
+    <property name="page" value="3"/>
+  </bean>
+  
   <bean id="xccTemplate" class="com.marklogic.xccutil.template.XccTemplate">
     <constructor-arg
       value="xcc://#{systemProperties['mlUsername']}:#{systemProperties['mlPassword']}@#{systemProperties['mlHost']}:#{systemProperties['mlXdbcPort']}" />
@@ -18,7 +23,7 @@
 
   <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 
-    <!-- Reads files from the given directory and then ingests them using mlcp -->
+    <!-- Reads files from the given directory and then ingest them using mlcp -->
     <route>
       <from uri="file://inbox/mlcp" />
       <to
@@ -34,12 +39,23 @@
         <unmarshal>
           <csv delimiter="," />
         </unmarshal>
-        <to uri="bean:csvProcessor"/>
-        <to uri="velocity:velocity/to-person.vm?contentCache=false"/>
-        <to uri="ml-xcc://{{mlUsername}}:{{mlPassword}}@{{mlHost}}:{{mlXdbcPort}}?format=xml&amp;collections=person,camel-test&amp;permissions=rest-reader,read,rest-writer,update" />
+        <to uri="bean:csvProcessor" />
+        <to uri="velocity:velocity/to-person.vm?contentCache=false" />
+        <to
+          uri="ml-xcc://{{mlUsername}}:{{mlPassword}}@{{mlHost}}:{{mlXdbcPort}}?format=xml&amp;collections=person,camel-test&amp;permissions=rest-reader,read,rest-writer,update" />
       </split>
-      
+    </route>
 
+    <route autoStartup="true">
+      <from uri="timer:searchTimer?fixedRate=true&amp;period=1000&amp;repeatCount=3" />
+      <to uri="bean:wbSearchInitializer?method=setHeadersForSearch"/>
+      <log message="Rows: ${headers.WbSearchRows}"/>
+      <log message="Start: ${headers.WbSearchStart}"/>
+      <to uri="http4://search.worldbank.org/api/v2/wds?format=xml&amp;srt=docdt&amp;order=desc&amp;rows=${headers.WbSearchRows}&amp;os=1" />
+      <split streaming="true" parallelProcessing="true">
+        <xpath>/documents/doc</xpath>
+        <log message="Got doc"/>
+      </split>
     </route>
 
     <!-- This route shows how to use the Camel Timer component to initiate a flow, which then involves the CurrentTimeXmlGenerator 

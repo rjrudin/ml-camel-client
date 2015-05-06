@@ -7,7 +7,7 @@ buildscript {
   }
   
   dependencies {
-    classpath "com.marklogic:ml-gradle:1.0"
+    classpath "com.marklogic:ml-gradle:1.2.3"
   }
 }
 
@@ -20,22 +20,23 @@ repositories {
   maven {url "http://developer.marklogic.com/maven2/"}
   maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
   maven {url "http://rjrudin.github.io/marklogic-java/releases"}
+  maven {url "../gh-pages-marklogic-java/releases"}
 }
 
-dependencies {
-    
-    // Camel component for talking XCC to MarkLogic
-    compile "com.marklogic.camel:ml-camel-xcc:0.2"
-    
-  // MLCP has a bug in its POM file - need to make sure we get the right version of xml-apis
-  compile("com.marklogic.camel:ml-camel-mlcp:0.4") {
-    exclude module:"xml-apis"
-  }
-  compile "xml-apis:xml-apis:1.4.01"
+dependencies {    
+  compile "com.marklogic.camel:ml-camel-mlcp:0.5"
   
+  // Camel component for talking XCC to MarkLogic
+  compile "com.marklogic.camel:ml-camel-xcc:0.2"
+
   compile "org.apache.camel:camel-spring:2.15.1"
   runtime "org.apache.camel:camel-csv:2.15.1"
   runtime "org.apache.camel:camel-velocity:2.15.1"
+  runtime "org.apache.camel:camel-http4:2.15.1"
+  
+  runtime "org.slf4j:slf4j-api:1.7.7"
+  runtime "org.slf4j:slf4j-log4j12:1.7.7"
+  runtime "log4j:log4j:1.2.17"
 }
 
 task camelRun(type: JavaExec) {
