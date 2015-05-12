@@ -24,12 +24,11 @@ repositories {
 }
 
 dependencies {    
-  compile "com.marklogic.camel:ml-camel-mlcp:0.5"
-  
   // Camel component for talking XCC to MarkLogic
   compile "com.marklogic.camel:ml-camel-xcc:0.2"
-
   compile "org.apache.camel:camel-spring:2.15.1"
+  
+  runtime "com.marklogic.camel:ml-camel-mlcp:0.5"
   runtime "org.apache.camel:camel-csv:2.15.1"
   runtime "org.apache.camel:camel-velocity:2.15.1"
   runtime "org.apache.camel:camel-http4:2.15.1"
