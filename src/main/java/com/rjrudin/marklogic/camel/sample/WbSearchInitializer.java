@@ -1,4 +1,4 @@
-package com.marklogic.camel.sample;
+package com.rjrudin.marklogic.camel.sample;
 
 import org.apache.camel.Exchange;
 

@@ -7,7 +7,7 @@ buildscript {
   }
   
   dependencies {
-    classpath "com.marklogic:ml-gradle:2.0a12b"
+    classpath "com.rjrudin:ml-gradle:2.0b1"
   }
 }
 
@@ -20,15 +20,14 @@ repositories {
   maven {url "http://developer.marklogic.com/maven2/"}
   maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
   maven {url "http://rjrudin.github.io/marklogic-java/releases"}
-  maven {url "../gh-pages-marklogic-java/releases"}
 }
 
 dependencies {    
   // Camel component for talking XCC to MarkLogic
-  compile "com.marklogic.camel:ml-camel-xcc:0.2"
+  compile "com.rjrudin:ml-camel-xcc:0.3"
   compile "org.apache.camel:camel-spring:2.15.1"
   
-  runtime "com.marklogic.camel:ml-camel-mlcp:0.5"
+  runtime "com.rjrudin:ml-camel-mlcp:0.6"
   runtime "org.apache.camel:camel-csv:2.15.1"
   runtime "org.apache.camel:camel-velocity:2.15.1"
   runtime "org.apache.camel:camel-http4:2.15.1"
