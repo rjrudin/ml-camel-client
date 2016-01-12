@@ -1,22 +1,12 @@
 // Load ml-gradle for quickly creating a REST API application
-buildscript {
-  repositories {
-    mavenCentral()
-    maven {url "http://developer.marklogic.com/maven2/"}
-    maven {url "http://rjrudin.github.io/marklogic-java/releases"}
-  }
-  
-  dependencies {
-    classpath "com.rjrudin:ml-gradle:2.0b1"
-  }
+plugins {
+  id "com.marklogic.ml-gradle" version "2.0rc3"
+  id "java"
+  id "eclipse"
 }
 
-apply plugin: 'ml-gradle'
-apply plugin: 'java'
-apply plugin: 'eclipse'
-
 repositories {
-  mavenCentral()
+  jcenter()
   maven {url "http://developer.marklogic.com/maven2/"}
   maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
   maven {url "http://rjrudin.github.io/marklogic-java/releases"}
