@@ -1,4 +1,4 @@
-package com.rjrudin.marklogic.camel.sample;
+package com.marklogic.camel.sample;
 
 import java.util.HashMap;
 import java.util.List;

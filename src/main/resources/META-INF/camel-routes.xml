@@ -6,18 +6,18 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
   <!-- A simple bean that sets the body of the input message to a block of XML with the current time in it -->
-  <bean id="currentTimeXmlGenerator" class="com.rjrudin.marklogic.camel.sample.CurrentTimeXmlGenerator" />
+  <bean id="currentTimeXmlGenerator" class="com.marklogic.camel.sample.CurrentTimeXmlGenerator" />
 
   <!-- Custom class for processing CSV text -->
-  <bean id="csvProcessor" class="com.rjrudin.marklogic.camel.sample.CsvProcessor" />
+  <bean id="csvProcessor" class="com.marklogic.camel.sample.CsvProcessor" />
 
   <!-- Custom class for defining parameters for searching search.worldbank.org -->
-  <bean id="wbSearchInitializer" class="com.rjrudin.marklogic.camel.sample.WbSearchInitializer">
+  <bean id="wbSearchInitializer" class="com.marklogic.camel.sample.WbSearchInitializer">
     <property name="rows" value="50"/>
     <property name="page" value="1"/>
   </bean>
   
-  <bean id="xccTemplate" class="com.rjrudin.marklogic.xcc.XccTemplate">
+  <bean id="xccTemplate" class="com.marklogic.xcc.template.XccTemplate">
     <constructor-arg
       value="xcc://#{systemProperties['mlUsername']}:#{systemProperties['mlPassword']}@#{systemProperties['mlHost']}:#{systemProperties['mlXdbcPort']}" />
   </bean>

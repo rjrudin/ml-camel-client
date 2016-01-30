@@ -1,10 +1,10 @@
-package com.rjrudin.marklogic.camel.sample;
+package com.marklogic.camel.sample;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.rjrudin.marklogic.xcc.XccTemplate;
+import com.marklogic.xcc.template.XccTemplate;
 
 public class CurrentTimeXmlGenerator {
 

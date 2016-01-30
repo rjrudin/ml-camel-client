@@ -1,6 +1,6 @@
 // Load ml-gradle for quickly creating a REST API application
 plugins {
-  id "com.marklogic.ml-gradle" version "2.0rc3"
+  id "com.marklogic.ml-gradle" version "2.0rc5"
   id "java"
   id "eclipse"
 }
@@ -9,15 +9,14 @@ repositories {
   jcenter()
   maven {url "http://developer.marklogic.com/maven2/"}
   maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
-  maven {url "http://rjrudin.github.io/marklogic-java/releases"}
+  maven {url "https://dl.bintray.com/rjrudin/maven/"}
 }
 
 dependencies {    
-  // Camel component for talking XCC to MarkLogic
-  compile "com.rjrudin:ml-camel-xcc:0.3"
+  compile "com.marklogic:ml-camel-xcc:1.0"
   compile "org.apache.camel:camel-spring:2.15.1"
   
-  runtime "com.rjrudin:ml-camel-mlcp:0.6"
+  runtime "com.marklogic:ml-camel-mlcp:1.0"
   runtime "org.apache.camel:camel-csv:2.15.1"
   runtime "org.apache.camel:camel-velocity:2.15.1"
   runtime "org.apache.camel:camel-http4:2.15.1"
