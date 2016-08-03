@@ -31,6 +31,21 @@
         uri="mlcp:{{mlHost}}:{{mlXdbcPort}}?username={{mlUsername}}&amp;password={{mlPassword}}&amp;output_collections=mlcp-test&amp;xml_repair_level=full" />
     </route>
 
+    <route>
+      <from uri="file://inbox/restapi" />
+      <setHeader headerName="CamelHttpMethod">
+        <constant>POST</constant>
+      </setHeader>
+      <setHeader headerName="CamelHttpQuery">
+        <constant>extension=xml&amp;collection=rest-api</constant>
+      </setHeader>
+      <setHeader headerName="Content-type">
+        <constant>application/xml</constant>
+      </setHeader>
+      <to uri="http4://{{mlHost}}:{{mlXdbcPort}}/v1/documents?authUsername={{mlUsername}}&amp;authPassword={{mlPassword}}" />
+      <log message="Finished loading file via REST API"/>
+    </route>
+
     <!-- Reads files from the given directory, splits them, and then in parallel runs them through a custom Java class for 
       processing, generates XML via Velocity, and then ingests the XML using XCC -->
     <route>

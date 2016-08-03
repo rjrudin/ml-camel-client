@@ -1,6 +1,6 @@
 // Load ml-gradle for quickly creating a REST API application
 plugins {
-  id "com.marklogic.ml-gradle" version "2.0rc5"
+  id "com.marklogic.ml-gradle" version "2.3.0"
   id "java"
   id "eclipse"
 }
