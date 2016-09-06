@@ -7,8 +7,8 @@ plugins {
 
 repositories {
   jcenter()
-  maven {url "http://developer.marklogic.com/maven2/"}
-  maven {url "http://repository.cloudera.com/artifactory/cloudera-repos/" }
+  maven {url "https://developer.marklogic.com/maven2/"}
+  maven {url "https://repository.cloudera.com/artifactory/cloudera-repos/" }
 }
 
 dependencies {    
