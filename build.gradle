@@ -3,6 +3,7 @@ plugins {
   id "com.marklogic.ml-gradle" version "2.3.0"
   id "java"
   id "eclipse"
+  id "com.github.jk1.dependency-license-report" version "0.3.11"
 }
 
 repositories {

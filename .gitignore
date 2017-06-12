@@ -6,3 +6,4 @@
 .classpath
 /inbox/
 .idea
+*.iml
